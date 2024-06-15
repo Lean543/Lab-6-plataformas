@@ -2,12 +2,26 @@
 #include <stdlib.h>
 #include "stack.h"
 
-void Push(Pila** superior, int data){
+void stacksize(stack** top, int size){
 
-    //Crea una nueva pila
+    if (&size == 0){
 
-    Pila * newPila = (Pila *)malloc(sizeof(Pila));
-    if (newPila == NULL){
+        printf("Stack vacío");
+
+        return;
+
+    }
+
+    printf("Tamaño stack: %d", size);
+
+}
+
+void Push(stack** top, int data, int * size){
+
+    //Crea una nueva stack
+
+    stack * newstack = (stack *)malloc(sizeof(stack));
+    if (newstack == NULL){
 
         printf("Falló reservando memoria\n");
 
@@ -15,42 +29,80 @@ void Push(Pila** superior, int data){
 
     }
 
-    newPila->data = data;
-    newPila->next = NULL;
+    newstack->data = data;
+    newstack->next = NULL;
 
-    if (*superior == NULL) {   
+    if (top == NULL) {   
 
-        *superior = newPila;
+        *top = newstack;
+
+        size++;
 
         return;
     }
 
-    Pila* target = *superior;
+    stack* target = *top;
 
-    while (target->next != NULL){
+    target->next = newstack;
 
-        target = target->next
+    *top = newstack;
 
-    }
-
-
-    target->next = NewPila;
+    size++;
 
 }
 
-void Pop(Pila** superior){
+void Pop(stack** top, int * size){
 
-    while (target->next != NULL){
+    stack* target = *top;
 
-        target = target->next
+    target = target->next;
+
+    *top = target;
+
+    free(target);
+
+    size--;
+
+}
+
+void Peek(stack* top){
+
+    int topdata = top->data;
+
+    printf("La data del elemento en la cima del stack es %d\n", topdata);
+
+}
+
+void printstack(stack* top){
+
+    stack* target = top;
+
+    while(target->next != NULL){
+
+        target->next = target;
+
+        printf("%d", target->data);
 
     }
 
-    free(target)
+    printf("%d", target->data);
 
-    while (target->next != NULL){
+}
 
-        target = target->next
+void freelist(stack* top){
+
+    stack * target = top;
+
+    stack * next;
+
+    while(target != NULL){
+
+        next = target->next;
+
+        free(target);
+        
+        target = next;
 
     }
+
 }
