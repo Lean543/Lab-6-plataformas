@@ -1,9 +1,19 @@
-typedef struct Pila {
+typedef struct stack {
 
     int data;
 
-    struct Node* next;
+    struct stack* next;
 
-} Stack;
+} stack;
 
-void Push(Pila** superior, int data);
+void stacksize(int* size);
+
+void Push(stack** base, int data, int* size);
+
+void Pop(stack** base, int* size);
+
+void Peek(stack* base);
+
+void printstack(stack* base);
+
+void freestack(stack* base);
