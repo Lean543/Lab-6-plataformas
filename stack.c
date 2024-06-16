@@ -2,26 +2,27 @@
 #include <stdlib.h>
 #include "stack.h"
 
-void stacksize(stack** top, int size){
+void stacksize(int* size){
 
-    if (&size == 0){
+    if (*size == 0){
 
-        printf("Stack vacío");
+        printf("Stack vacío\n");
 
         return;
 
     }
 
-    printf("Tamaño stack: %d", size);
+    printf("Tamaño stack: %d\n", *size);
 
 }
 
-void Push(stack** top, int data, int * size){
+void Push(stack** base, int data, int* size){
 
     //Crea una nueva stack
 
-    stack * newstack = (stack *)malloc(sizeof(stack));
-    if (newstack == NULL){
+    stack * newtop = (stack *)malloc(sizeof(stack));
+
+    if (newtop == NULL){
 
         printf("Falló reservando memoria\n");
 
@@ -29,69 +30,101 @@ void Push(stack** top, int data, int * size){
 
     }
 
-    newstack->data = data;
-    newstack->next = NULL;
+    newtop->data = data;
+    newtop->next = NULL;
 
-    if (top == NULL) {   
+    if (*base == NULL) {   
 
-        *top = newstack;
+        *base = newtop;
 
-        size++;
+        *size += 1;
 
         return;
     }
 
-    stack* target = *top;
-
-    target->next = newstack;
-
-    *top = newstack;
-
-    size++;
-
-}
-
-void Pop(stack** top, int * size){
-
-    stack* target = *top;
-
-    target = target->next;
-
-    *top = target;
-
-    free(target);
-
-    size--;
-
-}
-
-void Peek(stack* top){
-
-    int topdata = top->data;
-
-    printf("La data del elemento en la cima del stack es %d\n", topdata);
-
-}
-
-void printstack(stack* top){
-
-    stack* target = top;
+    stack* target = *base;
 
     while(target->next != NULL){
 
-        target->next = target;
-
-        printf("%d", target->data);
+        target = target->next;
 
     }
 
-    printf("%d", target->data);
+    target->next = newtop;
+
+    *size += 1;
 
 }
 
-void freelist(stack* top){
+void Pop(stack** base, int* size){
 
-    stack * target = top;
+    if (*size == 1 || *size == 0){
+
+        printf("stack queda vacío, imposible hacer pop\n");
+
+        return;
+
+    }
+
+    stack* target = *base;
+
+    stack* target2 = *base;
+
+    while((target2->next)->next != NULL){
+
+        target2 = target2->next;
+
+    }
+
+    while(target->next != NULL){
+
+        target = target->next;
+
+    }
+
+    target2->next = NULL;
+
+    printf("Data top eliminado: %d\n", target->data);
+
+    free(target);
+
+    *size -= 1;
+
+}
+
+void Peek(stack* base){
+
+    stack* target = base;
+
+    while(target->next != NULL){
+
+        target = target->next;
+
+    }
+
+    printf("La data del elemento en la cima del stack es %d\n", target->data);
+
+}
+
+void printstack(stack* base){
+
+    stack* target = base;
+
+    while(target->next != NULL){
+
+        printf("%d\n", target->data);
+
+        target = target->next;
+
+    }
+
+    printf("%d\n", target->data);
+
+}
+
+void freestack(stack* base){
+
+    stack * target = base;
 
     stack * next;
 
@@ -104,5 +137,6 @@ void freelist(stack* top){
         target = next;
 
     }
+
 
 }

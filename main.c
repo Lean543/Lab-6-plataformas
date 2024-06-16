@@ -3,34 +3,62 @@
 
 int main(){
 
-    int stacksize = 0;
+    int size = 0;
 
-    int * ptrsize = &stacksize;
+    int * ptrsize = &size;
 
-    stack* top = NULL;
+    stack* base = NULL;
 
+    //Tamaño de pila en el momento
+    stacksize(ptrsize);
+
+    //Inserta pila
     int data = 1;
+    Push(&base, data, ptrsize);
 
-    Push(&top, data, ptrsize);
-
+    //Inserta pila
     data = 2;
+    Push(&base, data, ptrsize);
 
-    Push(&top, data, ptrsize);
+    printstack(base);
 
+    //Inserta pila
     data = 3;
+    Push(&base, data, ptrsize);
 
-    Push(&top, data, ptrsize);
+    //Elimina top en ese momento
+    Pop(&base, &size);
 
-    Pop(&top, ptrsize);
+    //Tamaño de pila en el momento
+    stacksize(ptrsize);
 
-    Peek(&top);
+    //Ver top en ese momento
+    Peek(base);
 
+    //Inserta pila
     data = 9;
+    Push(&base, data, ptrsize);
 
-    Push(&top, data, ptrsize);
+    printstack(base);
 
-    printstack(&top);
+    //Elimina top en ese momento
+    Pop(&base, &size);
 
-    freelist(&top);
+    printstack(base);
+
+    //Inserta pila
+    data = 56;
+    Push(&base, data, ptrsize);
+
+    //Inserta pila
+    data = 32;
+    Push(&base, data, ptrsize);
+
+    printstack(base);
+
+    //Ver top en ese momento
+    Peek(base);
+
+    freestack(base);
 
 }

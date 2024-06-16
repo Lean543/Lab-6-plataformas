@@ -6,10 +6,14 @@ typedef struct stack {
 
 } stack;
 
-void Push(stack** top, int data, int size);
+void stacksize(int* size);
 
-void Pop(stack** top, int size);
+void Push(stack** base, int data, int* size);
 
-void Peek(stack* top);
+void Pop(stack** base, int* size);
 
-void printstack(stack* top);
+void Peek(stack* base);
+
+void printstack(stack* base);
+
+void freestack(stack* base);
